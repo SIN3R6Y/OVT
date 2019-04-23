@@ -119,4 +119,4 @@ At this point you should have a working VDI terminal, just reboot and enjoy!
 
 # License
 
-OVT is licensed under the MIT license, see LICENSE.txt for more information.
+OVT is licensed under the MIT license, see LICENSE for more information.

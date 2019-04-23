@@ -1,0 +1,13 @@
+
+module pulseaudio_system 1.0;
+
+require {
+	type pulseaudio_var_run_t;
+	type pulseaudio_t;
+	class capability { dac_override dac_read_search };
+	class lnk_file create;
+}
+
+#============= pulseaudio_t ==============
+allow pulseaudio_t pulseaudio_var_run_t:lnk_file create;
+allow pulseaudio_t self:capability { dac_override dac_read_search };

@@ -1,0 +1,120 @@
+[ovirt]
+; url: The URL of your oVirt Engine API endpoint. This application
+;      was built with oVirt 4+ in mind. oVirt 4+ uses /ovirt-engine/api
+;      as it's api endpoit, but if you have custom settings or a 
+;      reverse proxy that exposes the api at a different location you
+;      can enter that here. If you're using an older verion of oVirt 
+;      your mileage may vary.
+url = https://ovirt.example.org/ovirt-engine/api
+
+; profile: The profile you wish to use for user sign in. This is
+;          the same profile you select from the oVirt web UI. If you
+;          have setup AAA within oVirt you should see it listed as
+;          an option in the web UI. 
+profile = internal
+
+; protocol: The display protocl you use for VDI. This is most likely
+;           "spice" as using "vnc" for VDI would prove to be a rather
+;           painful experience. If you are using VNC, please consider
+;           switching!
+protocol = spice
+
+[environment]
+; startx: This application can run from an already existing X session
+;         (Gnome, KDE, etc..) or start start it's own X session. If
+;         you want to use an existing X session set this value to
+;         "no". If you want this application to start it's own X
+;         session set this to "yes".
+startx = no
+
+; nmpath: The path to the nmcli binary on the client machine in which
+;         you are installing this application.
+nmpath = /bin/nmcli
+
+; pcpath: The path to the pactl binary on the client machine in which 
+;         you are installing this application.
+pcpath = /bin/pactl
+
+; psink: The ID of the pulseaudio sink you have set up for routing VDI
+;        audio. This is probably "0", but if you have set up pulseaudio
+;        differently, you can change it here. All this application does
+;        is unmute the specified sink and set it's volume to 100%. It
+;        does not change audio devices. If you set startx to no,
+;        this value is ignored.
+psink = 0
+
+; rvpath: The path to the remote-viewer binary on the client machine
+;         in which you are installing this application.
+rvpath = /bin/remote-viewer
+
+; shpath: The path to the shell binary (bash?) on the client machine
+;         in which you are installing this application.
+shpath = /bin/bash
+
+; sxpath: The path to the startx binary on the client machine in which
+;         you are installing this application. If you set startx to
+;         yes, this value is ignored.
+sxpath = /bin/startx
+
+[preferences]
+; pname: Name of the product, this will be displayed on application
+;        start up. Change this to whatever you see fit, or leave it 
+;        as is. You probably want to customize the logos and / or the
+;        disclaimer as will if you change this.
+pname = oVirt VDI Terminal
+
+; interface: Which UI to present to the user. Currently only "cli" is
+;            supported. This does not affect remote-viewer, only the
+;            user interface for this application. TODO: qt4, qt5
+interface = cli
+
+; autocon: Automatically connect to a VM or acquire VM from pool. This
+;          only takes effect if the user only has one VM or pool to
+;          choose from. If there are multiple choices the user will
+;          still be given the option to pick a VM and / or pool.
+autocon = yes
+
+; fullscreen: Defines whether or not to start remote-viewer in
+;             fullscreen mode. Set to "yes" to force fullscreen mode,
+;             "no" to accept the default value from oVirt. If you
+;             have startx set to "yes" you most likely want to set
+;             fullscreen to "yes"
+fullscreen = yes
+
+; kiosk: Defines whether or not to start remote-viewer in kiosk mode.
+;        Set to "yes" to force kiosk mode, "no" to accept the
+;        default value provided by oVirt. If you have startx set to
+;        "yes" you most likely want to set kiosk to "yes"
+;
+;        WARNING: In kiosk mode you will not have access to the
+;        disconnect menu. Keep this in mind if you need it.
+kiosk = yes
+
+; maxsess: How long (in seconds) a user's VDI session can be active.
+;          This is needed to ensure that the spice proxy does not
+;          terminate an inactive connection while remote-viewer is
+;          active. If the spice proxy closes a connection (I.E. the
+;          mouse / keyboard connection) first, you may end up with 
+;          a remote-viewer session that still displays images, but
+;          accepts no input. If kiosk mode is disabled, this is less
+;          of an issue as the user still has acces to the disconnect
+;          option, but if kiosk mode is enabled remote-viewer will
+;          need to be terminated manually or by this setting. This
+;          value needs to be less than the spice proxy's timeout
+;          setting.
+maxsess = 57600
+
+; mpwordhash: SHA1 hash of the maintenance password, this is used to
+;             exit the application to perform maintenance tasks.You
+;             can generate this hash with genhash.py included with this
+;             application. Exiting to maintenance mode can be done by
+;             pressing Ctrl + C three times except when entering a
+;             password. Pressing Ctrl + C while entering a password
+;             resets the application to the login prompt.
+;
+;             WARNING: set the oVirt API URL setting BEFORE running
+;             genhash.py, as it is used as a salt. You will have to
+;             generate a new hash every time you change the oVirt API
+;             URL or else you risk being locked out of maintenance
+;             mode!
+mpwordhash = changeme
